@@ -1,5 +1,3 @@
-"use client"
-
 // React Component & Function
 import React, { useCallback } from 'react'
 

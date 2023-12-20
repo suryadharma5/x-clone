@@ -1,5 +1,3 @@
-"use client"
-
 import { useRouter } from "next/navigation"
 import React, { useCallback } from "react"
 import { BiArrowBack } from "react-icons/bi"

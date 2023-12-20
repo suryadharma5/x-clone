@@ -1,5 +1,3 @@
-"use client"
-
 import useLoginModal from '@/hooks/useLoginModal'
 import React, { useCallback, useState } from 'react'
 import Input from '../Input'
