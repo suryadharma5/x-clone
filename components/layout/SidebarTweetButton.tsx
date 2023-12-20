@@ -1,5 +1,3 @@
-"use client"
-
 import useLoginModal from "@/hooks/useLoginModal"
 import { useRouter } from "next/navigation"
 import { useCallback } from "react"
