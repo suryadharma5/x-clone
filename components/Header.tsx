@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({
                         <BiArrowBack
                             size={20}
                             color="white"
-                            onclick={handleBack}
+                            onClick={handleBack}
                             className="cursor-pointer hover:opacity-75 transition"
                         />
                     )
