@@ -6,6 +6,7 @@ import { format } from 'date-fns'
 import Button from '../Button'
 import { BiCalendar } from 'react-icons/bi'
 import useEditModal from '@/hooks/useEditModal'
+import useFollow from '@/hooks/useFollow'
 
 type UserBioProps = {
     userId: string
@@ -17,6 +18,8 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
 
     const editModal = useEditModal()
 
+    const { isFollowing, toggleFollow } = useFollow(userId)
+
     const createdAt = useMemo(() => {
         if (!fetchedUser?.createdAt) {
             return null
@@ -25,6 +28,8 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
         return format(new Date(fetchedUser.createdAt), 'MMMM yyyy')
     }, [fetchedUser?.createdAt])
 
+    console.log(isFollowing)
+
     return (
         <div className='border-b-[1px] border-neutral-800 pb-4'>
             <div className='flex justify-end p-2'>
@@ -32,7 +37,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
                     currentUser?.id === userId ? (
                         <Button secondary label='Edit' onClick={() => editModal.onOpen()} />
                     ) : (
-                        <Button label='Follow' secondary onClick={() => { }} />
+                        <Button label={isFollowing ? 'Unfollow' : 'Follow'} secondary={!isFollowing} outline={isFollowing} onClick={toggleFollow} />
                     )
                 }
             </div>
@@ -71,7 +76,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
                             {fetchedUser?.followersCount || 0}
                         </p>
                         <p className='text-neutral-500'>
-                            {fetchedUser?.followersCount ? "Followers" : "Follower"}
+                            {fetchedUser?.followersCount > 1 ? "Followers" : "Follower"}
                         </p>
                     </div>
                 </div>
