@@ -4,7 +4,8 @@ import useLoginModal from '@/hooks/useLoginModal'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import { formatDistanceToNowStrict } from 'date-fns'
 import Avatar from '../Avatar'
-import { AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai'
+import useLike from '@/hooks/useLike'
 
 type PostItemProps = {
     data: Record<string, any>
@@ -14,7 +15,9 @@ type PostItemProps = {
 const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
     const router = useRouter()
     const loginModal = useLoginModal()
+
     const { data: currentUser } = useCurrentUser()
+    const { hasLiked, toggleLike } = useLike({ postId: data.id, userId })
 
     const goToUser = useCallback((e: any) => {
         e.stopPropagation()
@@ -31,8 +34,13 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
     const onLike = useCallback((e: any) => {
         e.stopPropagation()
 
-        loginModal.onOpen()
-    }, [loginModal])
+        if (!currentUser) {
+            return loginModal.onOpen()
+        }
+
+        toggleLike()
+
+    }, [loginModal, currentUser, toggleLike])
 
     const createdAt = useMemo(() => {
         if (!data?.createdAt) {
@@ -79,7 +87,7 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
                             @{data.user.username}
                         </span>
                         <span className='text-neutral-500 text-sm'>
-                            {createdAt}
+                            {createdAt} ago
                         </span>
                     </div>
                     <div className='text-white mt-1'>
@@ -111,9 +119,11 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
                             transition
                             hover:text-red-500'
                         >
-                            <AiOutlineHeart size={20} />
+                            {
+                                hasLiked ? <AiFillHeart color='red' size={20} /> : <AiOutlineHeart size={20} />
+                            }
                             <p>
-                                {data.comments.length || 0}
+                                {data.likedIds.length}
                             </p>
                         </div>
                     </div>
