@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import useNotificaton from '@/hooks/useNotification'
-import { BsX } from 'react-icons/bs'
+import { BsTwitterX } from 'react-icons/bs'
 
 const NotificationFeed = () => {
     const { data: currentUser, mutate: mutateCurrentUser } = useCurrentUser()
@@ -19,6 +19,8 @@ const NotificationFeed = () => {
         )
     }
 
+    console.log(fetchedNotifications)
+
     return (
         <div className='flex flex-col'>
             {
@@ -35,7 +37,7 @@ const NotificationFeed = () => {
                             border-neutral-800
                         '
                     >
-                        <BsX color='white' size={32} />
+                        <BsTwitterX color='white' size={30} />
                         <p className='text-white'>
                             {notif.body}
                         </p>

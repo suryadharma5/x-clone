@@ -25,6 +25,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         })
 
+        // TRIGGER NOTIFICATIONS START
+        try {
+            const post = await prisma.post.findUnique({
+                where: {
+                    id: postId
+                }
+            })
+
+            if (post?.userId) {
+                await prisma.notification.create({
+                    data: {
+                        body: 'Someone replied to your tweet',
+                        userId: post.userId
+                    }
+                })
+
+                await prisma.user.update({
+                    where: {
+                        id: post.userId
+                    },
+                    data: {
+                        hasNotification: true
+                    }
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        // TRIGGER NOTIFICATIONS END
+
         return res.status(200).json(comment)
 
     } catch (error) {

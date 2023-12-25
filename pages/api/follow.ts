@@ -30,6 +30,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (req.method === 'POST') {
             updatedFollowingIds.push(userId)
+
+            // TRIGGER NOTIFICATIONS START
+            try {
+                await prisma.notification.create({
+                    data: {
+                        body: 'Someone follow you!',
+                        userId: userId
+                    }
+                })
+
+                await prisma.user.update({
+                    where: {
+                        id: userId
+                    },
+                    data: {
+                        hasNotification: true
+                    }
+                })
+            } catch (error) {
+                console.log(error)
+            }
+            // TRIGGER NOTIFICATIONS END
         }
 
         if (req.method === 'DELETE') {
