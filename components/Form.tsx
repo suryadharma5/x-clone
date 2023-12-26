@@ -110,7 +110,7 @@ const Form: React.FC<FormProps> = ({ placeHolder, isComment, postId }) => {
                             mb-4 
                             font-bold
                         '>
-                            Welcome to X Clone
+                            Welcome to X <i>Clone</i>
                         </h1>
                         <div className='flex flex-row items-center justify-center gap-4'>
                             <Button
