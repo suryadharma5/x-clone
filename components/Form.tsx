@@ -8,16 +8,19 @@ import toast from 'react-hot-toast'
 import Button from './Button'
 import Avatar from './Avatar'
 import usePost from '@/hooks/usePost'
+import useTweetModal from '@/hooks/useTweetModal'
 
 type FormProps = {
     placeHolder: string
     isComment?: boolean
     postId?: string
+    isTweetModal?: boolean
 }
 
-const Form: React.FC<FormProps> = ({ placeHolder, isComment, postId }) => {
+const Form: React.FC<FormProps> = ({ placeHolder, isComment, postId, isTweetModal }) => {
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
+    const tweetModal = useTweetModal()
 
     const { data: currentUser } = useCurrentUser()
     const { mutate: mutatePosts } = usePosts()
@@ -44,6 +47,9 @@ const Form: React.FC<FormProps> = ({ placeHolder, isComment, postId }) => {
             mutatePosts()
             mutatePost()
 
+            if (isTweetModal) {
+                tweetModal.onClose()
+            }
         } catch (error) {
             toast.error('Something went wrong')
             console.log(error)

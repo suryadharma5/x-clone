@@ -14,6 +14,7 @@ type ModalProps = {
     footer?: React.ReactElement
     actionLabel: string
     disabled?: boolean
+    isTweetModal?: boolean
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -24,7 +25,8 @@ const Modal: React.FC<ModalProps> = ({
     body,
     footer,
     actionLabel,
-    disabled
+    disabled,
+    isTweetModal
 }) => {
     const handleClose = useCallback(() => {
         if (disabled) {
@@ -120,7 +122,7 @@ const Modal: React.FC<ModalProps> = ({
 
                         {/* Footer */}
                         <div className='flex flex-col gap-2 p-10'>
-                            <Button label={actionLabel} disabled={disabled} secondary fullwidth large onClick={handleSubmit} />
+                            <Button label={actionLabel} disabled={disabled} secondary fullwidth large onClick={handleSubmit} isHidden={isTweetModal} />
                             {footer}
                         </div>
                     </div>

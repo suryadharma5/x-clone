@@ -8,6 +8,7 @@ type ButtonProps = {
     onClick: () => void
     disabled?: boolean
     outline?: boolean
+    isHidden?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -17,12 +18,14 @@ const Button: React.FC<ButtonProps> = ({
     large,
     onClick,
     disabled,
-    outline
+    outline,
+    isHidden
 }) => {
     return (
         <div>
             <button
                 disabled={disabled}
+                hidden={isHidden}
                 onClick={onClick}
                 className={`
                     disabled:opacity-70
